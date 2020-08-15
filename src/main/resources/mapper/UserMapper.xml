@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.group.order_food_system.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="com.group.order_food_system.pojo.User">
+    <id column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="user_password" jdbcType="VARCHAR" property="userPassword" />
+    <result column="user_telephone" jdbcType="VARCHAR" property="userTelephone" />
+    <result column="user_address" jdbcType="VARCHAR" property="userAddress" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.group.order_food_system.pojo.User">
+    insert into user (user_id, user_name, user_password, 
+      user_telephone, user_address)
+    values (#{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{userPassword,jdbcType=VARCHAR}, 
+      #{userTelephone,jdbcType=VARCHAR}, #{userAddress,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.group.order_food_system.pojo.User">
+    update user
+    set user_name = #{userName,jdbcType=VARCHAR},
+      user_password = #{userPassword,jdbcType=VARCHAR},
+      user_telephone = #{userTelephone,jdbcType=VARCHAR},
+      user_address = #{userAddress,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select user_id, user_name, user_password, user_telephone, user_address
+    from user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select user_id, user_name, user_password, user_telephone, user_address
+    from user
+  </select>
+
+  <select id="selectByUsername" resultMap="BaseResultMap">
+    select  user_name, user_password
+    from user  where user_name=#{username}
+  </select>
+  <select id="detail" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select user_id, user_name, user_password, user_telephone, user_address
+    from user where user_id = #{id}
+  </select>
+
+</mapper>

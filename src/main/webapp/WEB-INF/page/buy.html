@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../layui/css/layui.css" />
+</head>
+<body>
+<form class="layui-form layui-form-pane" action="" oninput="totalPrice.value = foodPrice.valueAsNumber * orderCount.valueAsNumber">
+    <div class="layui-form-item">
+        <label class="layui-form-label">食物名称</label>
+        <div class="layui-input-block">
+            <input type="text"  disabled id="foodName" name="foodName" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">食物价格</label>
+        <div class="layui-input-inline">
+            <input type="number" disabled id="foodPrice"name="foodPrice"  lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">店铺名称</label>
+        <div class="layui-input-inline">
+            <input type="text" disabled id="storeName"name="storeName"  lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">购买数量</label>
+        <div class="layui-input-inline">
+            <input type="number" min="0" max="100" id="orderCount"name="orderCount"  lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">总价</label>
+        <output id="totalPrice" name="totalPrice" />
+        <div class="layui-input-inline">
+
+<!--            <input type="text"   id="totalPrice"name="totalPrice"  lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">-->
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">订单人</label>
+        <div class="layui-input-inline">
+            <input type="text"  id="userName"name="userName"  lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">订单地址</label>
+        <div class="layui-input-inline">
+            <input type="text"  id="userAddress"name="userAddress"  lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="submit" class="layui-btn" lay-submit="" lay-filter="ordersubmit">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+</body>
+<script type="text/javascript" src="../layui/layui.js"></script>
+<script>
+    layui.use(['form','jquery','layer'],function () {
+        var form = layui.form,
+
+            $ = layui.jquery
+        layer = layui.layer
+
+
+        //form表单的提交
+        form.on('submit(ordersubmit)', function(data){
+            console.log(data.elem)
+            console.log(data.form)
+            console.log(data.field)
+            $.ajax({
+                type:'POST',
+                url:'../Order/add',
+                data:data.field,
+                dataType:'json',
+                success:function(res){
+                    if(res.code==200) {
+                        layer.msg("订购成功!",function () {
+                            window.parent.location.reload()
+                            
+                        });
+
+
+                        
+
+                    }
+                    else{
+                        layer.msg("订购失败,请重新下单!")
+                    }
+                }
+            })
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+    })
+
+
+
+</script>
+</html>

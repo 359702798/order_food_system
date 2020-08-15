@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.group.order_food_system.dao.FoodMapper">
+  <resultMap id="BaseResultMap" type="com.group.order_food_system.pojo.Food">
+    <id column="food_id" jdbcType="VARCHAR" property="foodId" />
+    <result column="store_id" jdbcType="VARCHAR" property="storeId" />
+    <result column="food_name" jdbcType="VARCHAR" property="foodName" />
+    <result column="food_photo" jdbcType="VARCHAR" property="foodPhoto" />
+    <result column="food_price" jdbcType="INTEGER" property="foodPrice" />
+    <result column="food_type" jdbcType="VARCHAR" property="foodType" />
+    <result column="food_state" jdbcType="INTEGER" property="foodState" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from food
+    where food_id = #{foodId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.group.order_food_system.pojo.Food">
+    insert into food (food_id, store_id, food_name, 
+      food_photo, food_price, food_type, 
+      food_state)
+    values (#{foodId,jdbcType=VARCHAR}, #{storeId,jdbcType=VARCHAR}, #{foodName,jdbcType=VARCHAR}, 
+      #{foodPhoto,jdbcType=VARCHAR}, #{foodPrice,jdbcType=INTEGER}, #{foodType,jdbcType=VARCHAR}, 
+      #{foodState,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.group.order_food_system.pojo.Food">
+    update food
+    set store_id = #{storeId,jdbcType=VARCHAR},
+      food_name = #{foodName,jdbcType=VARCHAR},
+      food_price = #{foodPrice,jdbcType=INTEGER},
+      food_type = #{foodType,jdbcType=VARCHAR},
+      food_state = #{foodState,jdbcType=INTEGER}
+    where food_id = #{foodId,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select food_id, store_id, food_name, food_photo, food_price, food_type, food_state
+    from food
+    where food_id = #{foodId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select food_id, store_id, food_name, food_photo, food_price, food_type, food_state
+    from food
+  </select>
+  <select id="selectChinese" resultMap="BaseResultMap">
+    select food_id, store_id, food_name, food_photo, food_price, food_type, food_state
+    from food where food_type="中餐"and food_state=1
+  </select>
+  <select id="selectWest" resultMap="BaseResultMap">
+    select food_id, store_id, food_name, food_photo, food_price, food_type, food_state
+    from food where food_type="西餐"and food_state=1
+  </select>
+  <select id="selectDessert" resultMap="BaseResultMap">
+    select food_id, store_id, food_name, food_photo, food_price, food_type, food_state
+    from food where food_type="甜点" and food_state=1
+  </select>
+  <select id="buy" resultMap="BaseResultMap">
+  SELECT  store_name AS store_id,food_price,food_name from
+food,store where food_id=#{id} and
+food.store_id=store.store_id
+
+  </select>
+  <update id="updateFoodState" >
+    update food
+    set food_state = #{status}
+    where food_id = #{id}
+  </update>
+
+  <select id="detail" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select food_id, store_id, food_name, food_photo, food_price, food_type, food_state
+    from food where food_id = #{id}
+  </select>
+</mapper>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="../layui/css/layui.css" />
+</head>
+<body>
+<form class="layui-form" action="">
+    <div class="layui-form-item">
+        <label class="layui-form-label">食物名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="foodName" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">餐馆ID</label>
+        <div class="layui-input-block">
+            <input type="text" name="storeId" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">食物价格</label>
+        <div class="layui-input-block">
+            <input type="text" name="foodPrice" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">食物类型</label>
+        <div class="layui-input-block">
+            <input type="text" name="foodType" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">食物图片</label>
+        <div class="layui-input-block">
+            <input type="text"  id="foodPhoto"  name="foodPhoto" lay-verify="title" autocomplete="off" placeholder="请输入地址" class="layui-input">
+            <button type="button" class="layui-btn" id="uploadphoto"><i class="layui-icon"></i>上传图片</button>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="submit" class="layui-btn" lay-submit="" lay-filter="fooddsubmit">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+</body>
+<script type="text/javascript" src="../layui/layui.js"></script>
+<script>
+    layui.use(['form','upload','layer'],function () {
+        var form = layui.form,
+            upload = layui.upload,
+            $ = layui.jquery,
+            layer = layui.layer
+
+        //视频的上传操作
+        upload.render({
+            elem: '#uploadphoto'
+            ,url: '../Food/up' //改成您自己的上传接口
+            ,accept: 'picture' //视频
+            ,auto: true  //自动上传  默认值
+            ,done: function(res){ // 回调函数  当上传成功以后需要做的事情
+                //需要将地址添加到我们的视频信息中   res.msg == qy.mp4
+                $("#foodPhoto").val(res.msg)
+            }
+        });
+
+        //form表单的提交
+        form.on('submit(fooddsubmit)', function(data){
+            $.ajax({
+                type:'POST',
+                url:'../Food/add',
+                data:data.field,
+                dataType:'json',
+                success:function(res){
+                    window.parent.location.reload()
+                }
+            })
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+    })
+
+
+</script>
+</html>

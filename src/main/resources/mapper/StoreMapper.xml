@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.group.order_food_system.dao.StoreMapper">
+  <resultMap id="BaseResultMap" type="com.group.order_food_system.pojo.Store">
+    <id column="store_id" jdbcType="VARCHAR" property="storeId" />
+    <result column="store_name" jdbcType="VARCHAR" property="storeName" />
+    <result column="store_address" jdbcType="VARCHAR" property="storeAddress" />
+    <result column="store_telephone" jdbcType="VARCHAR" property="storeTelephone" />
+    <result column="store_type" jdbcType="VARCHAR" property="storeType" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from store
+    where store_id = #{storeId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.group.order_food_system.pojo.Store">
+    insert into store (store_id, store_name, store_address, 
+      store_telephone, store_type)
+    values (#{storeId,jdbcType=VARCHAR}, #{storeName,jdbcType=VARCHAR}, #{storeAddress,jdbcType=VARCHAR}, 
+      #{storeTelephone,jdbcType=VARCHAR}, #{storeType,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.group.order_food_system.pojo.Store">
+    update store
+    set store_name = #{storeName,jdbcType=VARCHAR},
+      store_address = #{storeAddress,jdbcType=VARCHAR},
+      store_telephone = #{storeTelephone,jdbcType=VARCHAR},
+      store_type = #{storeType,jdbcType=VARCHAR}
+    where store_id = #{storeId,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select store_id, store_name, store_address, store_telephone, store_type
+    from store
+    where store_id = #{storeId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select store_id, store_name, store_address, store_telephone, store_type
+    from store
+  </select>
+  <select id="detail" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select store_id, store_name, store_address, store_telephone, store_type
+    from store where store_id = #{id}
+  </select>
+</mapper>

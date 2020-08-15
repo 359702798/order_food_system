@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="../layui/css/layui.css" />
+</head>
+<body>
+<form class="layui-form" action="">
+    <div class="layui-form-item">
+        <label class="layui-form-label">餐馆名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="storeName" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">餐馆地址</label>
+        <div class="layui-input-block">
+            <input type="text" name="storeAddress" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">商家电话</label>
+        <div class="layui-input-block">
+            <input type="text" name="storeTelephone" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">餐馆类型</label>
+        <div class="layui-input-block">
+            <input type="text" name="storeType" placeholder="请输入" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="submit" class="layui-btn" lay-submit="" lay-filter="storesubmit">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+</body>
+<script type="text/javascript" src="../layui/layui.js"></script>
+<script>
+    layui.use(['form','layer'],function () {
+        var form = layui.form,
+            $ = layui.jquery,
+            layer = layui.layer
+
+
+
+        //form表单的提交
+        form.on('submit(storesubmit)', function(data){
+            $.ajax({
+                type:'POST',
+                url:'../store/add',
+                data:data.field,
+                dataType:'json',
+                success:function(res){
+                    window.parent.location.reload()
+                }
+            })
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+    })
+
+
+</script>
+</html>
